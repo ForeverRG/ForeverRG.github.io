@@ -20,23 +20,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Share">
-<meta property="og:url" content="http://example.com/index.html">
+    <meta name="description" content="前言随着 web 的发展与普及，前端页面不仅只加载在浏览器上，也慢慢流行于各种 app 的 webview 里。尤其在如今设备性能越来越好的条件下，前端页面更是开始在 app 中担任重要的角色。如此一来，前端页面的停留时间变得更长，我们理应越发重视前端的内存管理，防止内存泄露，提高页面的性能。 想要打造高性能前端应用，防止崩溃，就必须得搞清楚 JS 的内存机制，其实就是弄清楚 JS 内存的分配与回">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS内存浅析">
+<meta property="og:url" content="http://example.com/2022/09/19/JS%E5%86%85%E5%AD%98%E6%B5%85%E6%9E%90/index.html">
 <meta property="og:site_name" content="Share">
+<meta property="og:description" content="前言随着 web 的发展与普及，前端页面不仅只加载在浏览器上，也慢慢流行于各种 app 的 webview 里。尤其在如今设备性能越来越好的条件下，前端页面更是开始在 app 中担任重要的角色。如此一来，前端页面的停留时间变得更长，我们理应越发重视前端的内存管理，防止内存泄露，提高页面的性能。 想要打造高性能前端应用，防止崩溃，就必须得搞清楚 JS 的内存机制，其实就是弄清楚 JS 内存的分配与回">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-09-19T08:18:19.000Z">
+<meta property="article:modified_time" content="2022-09-19T11:07:06.775Z">
 <meta property="article:author" content="Range">
+<meta property="article:tag" content="JavaScript">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://example.com/">
+<link rel="canonical" href="http://example.com/2022/09/19/JS%E5%86%85%E5%AD%98%E6%B5%85%E6%9E%90/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"en","comments":"","permalink":"","path":"index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2022/09/19/JS%E5%86%85%E5%AD%98%E6%B5%85%E6%9E%90/","path":"2022/09/19/JS内存浅析/","title":"JS内存浅析"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Share</title>
+<title>JS内存浅析 | Share</title>
   
 
 
@@ -66,7 +71,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">Share</h1>
+      <p class="site-title">Share</p>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -103,7 +108,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -116,6 +121,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JS-%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E6%9C%BA%E5%88%B6"><span class="nav-number">2.</span> <span class="nav-text">JS 数据存储机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%A9%BA%E9%97%B4"><span class="nav-number">2.1.</span> <span class="nav-text">内存空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%88%E7%A9%BA%E9%97%B4%E5%92%8C%E5%A0%86%E7%A9%BA%E9%97%B4"><span class="nav-number">2.3.</span> <span class="nav-text">栈空间和堆空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AD%E5%8C%85"><span class="nav-number">2.4.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A0%86%E6%A0%88%E5%AD%98%E6%94%BE%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.5.</span> <span class="nav-text">堆栈存放的数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9B%B4%E5%9F%BA%E6%9C%AC%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.5.1.</span> <span class="nav-text">更基本的基本类型</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JS-%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6"><span class="nav-number">3.</span> <span class="nav-text">JS 内存回收</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%88%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6"><span class="nav-number">3.1.</span> <span class="nav-text">栈内存回收</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A0%86%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6"><span class="nav-number">3.2.</span> <span class="nav-text">堆内存回收</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%89%AF%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="nav-number">3.2.1.</span> <span class="nav-text">副垃圾回收器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="nav-number">3.2.2.</span> <span class="nav-text">主垃圾回收器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JS-%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">JS 内存泄漏</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AE%E8%AE%A4%E6%98%AF%E5%90%A6%E6%9C%89%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E7%9A%84%E6%83%85%E5%86%B5"><span class="nav-number">4.1.</span> <span class="nav-text">确认是否有内存泄漏的情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AE%E5%AE%9A%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%8E%92%E6%9F%A5%E6%96%B9%E5%BC%8F"><span class="nav-number">4.2.</span> <span class="nav-text">确定内存泄漏排查方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">6.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -162,16 +168,17 @@
 </noscript>
 
 
-    <div class="main-inner index posts-expand">
+    <div class="main-inner post posts-expand">
 
-    
+
+  
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/19/JS%E5%86%85%E5%AD%98%E6%B5%85%E6%9E%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -185,13 +192,13 @@
     </span>
     
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Share">
+      <meta itemprop="name" content="JS内存浅析 | Share">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/09/19/JS%E5%86%85%E5%AD%98%E6%B5%85%E6%9E%90/" class="post-title-link" itemprop="url">JS内存浅析</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          JS内存浅析
+        </h1>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -215,7 +222,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>随着 web 的发展与普及，前端页面不仅只加载在浏览器上，也慢慢流行于各种 app 的 webview 里。尤其在如今设备性能越来越好的条件下，前端页面更是开始在 app 中担任重要的角色。如此一来，前端页面的停留时间变得更长，我们理应越发重视前端的内存管理，防止内存泄露，提高页面的性能。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>随着 web 的发展与普及，前端页面不仅只加载在浏览器上，也慢慢流行于各种 app 的 webview 里。尤其在如今设备性能越来越好的条件下，前端页面更是开始在 app 中担任重要的角色。如此一来，前端页面的停留时间变得更长，我们理应越发重视前端的内存管理，防止内存泄露，提高页面的性能。</p>
 <p>想要打造高性能前端应用，防止崩溃，就必须得搞清楚 JS 的内存机制，其实就是弄清楚 JS 内存的分配与回收。</p>
 <h2 id="JS-数据存储机制"><a href="#JS-数据存储机制" class="headerlink" title="JS 数据存储机制"></a>JS 数据存储机制</h2><h3 id="内存空间"><a href="#内存空间" class="headerlink" title="内存空间"></a>内存空间</h3><p>图片<br>从图中可以看出， 在 JavaScript 的执行过程中， 主要有三种类型内存空间，分别是代码空间、栈空间和堆空间。</p>
 <p>代码空间：用来存放可执行代码</p>
@@ -298,7 +305,6 @@
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文先是讲述 js 类型在内存空间的储存位置，接着探讨堆栈中的内存是如何进行回收，最后描述内存泄漏确定和排查的方法，也补充一个 react 中有关 setState 造成“内存泄漏”的例子。内存泄漏在复杂应用中是难以避免的，个人排查也只能是解决一些比较明显的内存泄漏现象。所以为了更好地解决这个应用内内存泄漏问题，必须做好线上监控，利用广大用户操作数据，发现内存泄漏问题，进而不断改善应用的性能。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://developer.chrome.com/docs/devtools/memory-problems/memory-101/">https://developer.chrome.com/docs/devtools/memory-problems/memory-101/</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/goloving/p/15352261.html">https://www.cnblogs.com/goloving/p/15352261.html</a><br><a target="_blank" rel="noopener" href="https://hashnode.com/post/does-javascript-use-stack-or-heap-for-memory-allocation-or-both-cj5jl90xl01nh1twuv8ug0bjk">https://hashnode.com/post/does-javascript-use-stack-or-heap-for-memory-allocation-or-both-cj5jl90xl01nh1twuv8ug0bjk</a><br><a target="_blank" rel="noopener" href="https://www.ditdot.hr/en/causes-of-memory-leaks-in-javascript-and-how-to-avoid-them">https://www.ditdot.hr/en/causes-of-memory-leaks-in-javascript-and-how-to-avoid-them</a></p>
 
-      
     </div>
 
     
@@ -306,167 +312,25 @@
     
 
     <footer class="post-footer">
-        <div class="post-eof"></div>
-      
+          <div class="post-tags">
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/03/15/FirstArticle/" rel="prev" title="FirstArticle">
+                  <i class="fa fa-chevron-left"></i> FirstArticle
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
     </footer>
   </article>
 </div>
 
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/15/FirstArticle/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Range">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Share">
-      <meta itemprop="description" content="">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Share">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/15/FirstArticle/" class="post-title-link" itemprop="url">FirstArticle</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-03-15 10:13:38" itemprop="dateCreated datePublished" datetime="2022-03-15T10:13:38+08:00">2022-03-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-09-19 19:07:27" itemprop="dateModified" datetime="2022-09-19T19:07:27+08:00">2022-09-19</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/14/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Range">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Share">
-      <meta itemprop="description" content="">
-    </span>
-    
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Share">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/14/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-03-14 22:54:49" itemprop="dateCreated datePublished" datetime="2022-03-14T22:54:49+08:00">2022-03-14</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
 
 
 
