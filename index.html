@@ -21,9 +21,9 @@
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
     <meta property="og:type" content="website">
-<meta property="og:title" content="Share">
+<meta property="og:title" content="Ripples">
 <meta property="og:url" content="http://example.com/index.html">
-<meta property="og:site_name" content="Share">
+<meta property="og:site_name" content="Ripples">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="Range">
 <meta name="twitter:card" content="summary">
@@ -36,7 +36,7 @@
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"en","comments":"","permalink":"","path":"index.html","title":""}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Share</title>
+<title>Ripples</title>
   
 
 
@@ -66,9 +66,10 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">Share</h1>
+      <h1 class="site-title">Ripples</h1>
       <i class="logo-line"></i>
     </a>
+      <p class="site-subtitle" itemprop="description">Look up to see the stars,look down to see the dust</p>
   </div>
 
   <div class="site-nav-right">
@@ -132,9 +133,14 @@
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -180,12 +186,12 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Share">
+      <meta itemprop="name" content="Ripples">
       <meta itemprop="description" content="">
     </span>
     
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Share">
+      <meta itemprop="name" content="undefined | Ripples">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -200,9 +206,24 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2022-09-19 16:18:19 / Modified: 19:07:06" itemprop="dateCreated datePublished" datetime="2022-09-19T16:18:19+08:00">2022-09-19</time>
+      <time title="Created: 2022-09-19 16:18:19" itemprop="dateCreated datePublished" datetime="2022-09-19T16:18:19+08:00">2022-09-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-09-20 10:38:18" itemprop="dateModified" datetime="2022-09-20T10:38:18+08:00">2022-09-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+        </span>
     </span>
 
   
@@ -217,22 +238,22 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>随着 web 的发展与普及，前端页面不仅只加载在浏览器上，也慢慢流行于各种 app 的 webview 里。尤其在如今设备性能越来越好的条件下，前端页面更是开始在 app 中担任重要的角色。如此一来，前端页面的停留时间变得更长，我们理应越发重视前端的内存管理，防止内存泄露，提高页面的性能。</p>
 <p>想要打造高性能前端应用，防止崩溃，就必须得搞清楚 JS 的内存机制，其实就是弄清楚 JS 内存的分配与回收。</p>
-<h2 id="JS-数据存储机制"><a href="#JS-数据存储机制" class="headerlink" title="JS 数据存储机制"></a>JS 数据存储机制</h2><h3 id="内存空间"><a href="#内存空间" class="headerlink" title="内存空间"></a>内存空间</h3><p>图片<br>从图中可以看出， 在 JavaScript 的执行过程中， 主要有三种类型内存空间，分别是代码空间、栈空间和堆空间。</p>
+<h2 id="JS-数据存储机制"><a href="#JS-数据存储机制" class="headerlink" title="JS 数据存储机制"></a>JS 数据存储机制</h2><h3 id="内存空间"><a href="#内存空间" class="headerlink" title="内存空间"></a>内存空间</h3><p><img src="http://rihkyzx08.bkt.clouddn.com/js/1.png"><br>从图中可以看出， 在 JavaScript 的执行过程中， 主要有三种类型内存空间，分别是代码空间、栈空间和堆空间。</p>
 <p>代码空间：用来存放可执行代码</p>
 <p>栈空间：一块连续的内存区域，容量较小，读取速度快，被设计成先进后出结构</p>
 <p>堆空间：不连续的内存区域，容量较大，用于储存大数据，读取速度慢</p>
-<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p>图片<br>JavaScript 发展至今总共有八种数据类型，其中 Object 类型称为引用类型，其余七种称为基本类型，Object 是由其余七种基本类型组成的 kv 结构数据。</p>
+<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p><img src="http://rihkyzx08.bkt.clouddn.com/js/2.png"><br>JavaScript 发展至今总共有八种数据类型，其中 Object 类型称为引用类型，其余七种称为基本类型，Object 是由其余七种基本类型组成的 kv 结构数据。</p>
 <h3 id="栈空间和堆空间"><a href="#栈空间和堆空间" class="headerlink" title="栈空间和堆空间"></a>栈空间和堆空间</h3><p>栈空间其实就是 JavaScript 中的调用栈，是用来储存执行上下文，以及存储执行上下文中的一些基本类型中的小数据，如下图所示：</p>
-<p>图片</p>
+<p><img src="http://rihkyzx08.bkt.clouddn.com/js/3.png"></p>
 <p>变量环境： 存放 var 声明与函数声明的变量空间，编译时就能确定，不受块级作用域影响</p>
 <p>词法环境： 存放 let 与 const 声明的变量空间，编译时不能完全确定，受块级作用域影响</p>
 <p>而堆空间，则是用来储存大数据如引用类型，然后把他们的引用地址保存到栈空间的变量中，所以多了这一道中转，JavaScript 对堆空间数据的读取自然会比栈空间数据的要慢，可以用下图表示两者关系：</p>
-<p>图片</p>
+<p><img src="http://rihkyzx08.bkt.clouddn.com/js/4.png"></p>
 <p>通常情况下，栈空间都不会设置太大，这是因为 JavaScript 引擎需要用栈来维护程序执行期间上下文的状态，如果栈空间大了的话，所有的数据都存放在栈空间里面，那么会影响到上下文切换的效率，进而又影响到整个程序的执行效率。</p>
 <h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p>内部函数总是可以访问其外部函数中声明的变量，当通过调用一个外部函数返回一个内部函数后，即使该外部函数已经执行结束了，但是内部函数引用外部函数的变量依然保存在内存中，我们就把这些变量的集合称为闭包</p>
 <p>闭包中的数据会组成一个对象，然后保存在堆空间中，如：</p>
-<p>图片<br>可以利用开发者工具查看闭包情况，其中括号中的名称就是产生闭包的函数名。一般我们会认为闭包是返回的内部函数引用的变量集合，但闭包有一个较为迷惑的情况，如下：</p>
-<p>图片<br>图片<br>图片<br>图片<br>可以理解为，如果函数存在闭包，其所有内部函数都会拥有一个指向这个闭包的引用，即所有内部函数会共享同一个闭包，只要任意内部函数有引用外部函数中声明的变量，这个变量都会被纳入闭包内，而且最内部的函数会持有所有外部的闭包。</p>
+<p><img src="http://rihkyzx08.bkt.clouddn.com/js/5.png"><br>可以利用开发者工具查看闭包情况，其中括号中的名称就是产生闭包的函数名。一般我们会认为闭包是返回的内部函数引用的变量集合，但闭包有一个较为迷惑的情况，如下：</p>
+<p><img src="http://rihkyzx08.bkt.clouddn.com/js/6.png"><br><img src="http://rihkyzx08.bkt.clouddn.com/js/7.png"><br><img src="http://rihkyzx08.bkt.clouddn.com/js/8.png"><br><img src="http://rihkyzx08.bkt.clouddn.com/js/9.png"><br>可以理解为，如果函数存在闭包，其所有内部函数都会拥有一个指向这个闭包的引用，即所有内部函数会共享同一个闭包，只要任意内部函数有引用外部函数中声明的变量，这个变量都会被纳入闭包内，而且最内部的函数会持有所有外部的闭包。</p>
 <h3 id="堆栈存放的数据类型"><a href="#堆栈存放的数据类型" class="headerlink" title="堆栈存放的数据类型"></a>堆栈存放的数据类型</h3><p>原始类型的数据是存放在栈中，引用类型的数据是存放在堆中？</p>
 <p>上面这句话是用来描述栈中数据的存储情况，调用栈中的引用类型存放在堆中，相信大家都没有问题，但是原始类型真的都存放在栈中吗？</p>
 <p>数字</p>
@@ -244,11 +265,11 @@
 <h4 id="更基本的基本类型"><a href="#更基本的基本类型" class="headerlink" title="更基本的基本类型"></a>更基本的基本类型</h4><p>V8 定义了一种 oddball[1] 类型，属于 oddball 类型的有 null、undefined、true 和 false</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">BasicType</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">oddBall1</span> = <span class="literal">true</span>;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">oddBall2</span> = <span class="literal">false</span>;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">oddBall3</span> = <span class="literal">undefined</span>;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">oddBall4</span> = <span class="literal">null</span>;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">oddBall5</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> obj1 = <span class="keyword">new</span> <span class="title class_">BasicType</span>();</span><br><span class="line"><span class="keyword">const</span> obj2 = <span class="keyword">new</span> <span class="title class_">BasicType</span>();</span><br></pre></td></tr></table></figure>
 
-<p>图片<br>这里可以看到 oddball 类型以及空字符串的堆引用全部都是一个固定值，代表在 V8 跑起来的第一时间，不管我们有没有声明这些基本类型，他们都已经在堆中被创建完毕了。由此猜想栈中这些类型使用的也是堆中的地址。</p>
+<p><img src="http://rihkyzx08.bkt.clouddn.com/js/9.png"><br>这里可以看到 oddball 类型以及空字符串的堆引用全部都是一个固定值，代表在 V8 跑起来的第一时间，不管我们有没有声明这些基本类型，他们都已经在堆中被创建完毕了。由此猜想栈中这些类型使用的也是堆中的地址。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">Obj</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">string</span> = <span class="string">&quot;str&quot;</span>;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">num1</span> = <span class="number">1</span>;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">num2</span> = <span class="number">1.1</span>;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">bigInt</span> = <span class="title class_">BigInt</span>(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">symbol</span> = <span class="title class_">Symbol</span>(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> obj = <span class="keyword">new</span> <span class="title class_">Obj</span>();</span><br><span class="line"><span class="keyword">debugger</span>;</span><br><span class="line">obj.<span class="property">string</span> = <span class="string">&quot;other str&quot;</span>;</span><br><span class="line">obj.<span class="property">num1</span> = <span class="number">2</span>;</span><br><span class="line">obj.<span class="property">num2</span> = <span class="number">1</span>;</span><br><span class="line">obj.<span class="property">bigInt</span> = <span class="title class_">BigInt</span>(<span class="string">&quot;2&quot;</span>);</span><br><span class="line">obj.<span class="property">symbol</span> = <span class="title class_">Symbol</span>(<span class="string">&quot;2&quot;</span>);</span><br></pre></td></tr></table></figure>
 
-<p>图片<br><strong>debugger 后内存快照</strong></p>
-<p>图片<br>其中 bigInt、string、symbol 的内存地址都进行了更换，由此可以猜想是因为这三种类型占用的内存大小不是一个固定值，需要根据其值进行动态分配，所以内存地址会进行更换；而 heapNumber 的内存地址并没有发生变化，这个更换值的操作还是在原来的内存空间中进行。</p>
+<p><img src="http://rihkyzx08.bkt.clouddn.com/js/11.png"><br><strong>debugger 后内存快照</strong></p>
+<p><img src="http://rihkyzx08.bkt.clouddn.com/js/12.png"><br>其中 bigInt、string、symbol 的内存地址都进行了更换，由此可以猜想是因为这三种类型占用的内存大小不是一个固定值，需要根据其值进行动态分配，所以内存地址会进行更换；而 heapNumber 的内存地址并没有发生变化，这个更换值的操作还是在原来的内存空间中进行。</p>
 <p>因为栈是一块连续的内存空间，不希望运行中会产生内存碎片，由此可以得出 bigInt、string、symbol 这些内存大小不固定的类型在栈中也是保存其堆内存的引用。同时我们在栈中可以声明很大的 string，如果 string 存放在栈中明显也不合理</p>
 <p><strong>故栈空间中的基本类型储存位置如下：</strong></p>
 <figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">|类型 |储存位置</span><br><span class="line">|Number |smi 储存栈中，heapNumber 储存堆中</span><br><span class="line">|String |堆</span><br><span class="line">|Boolean|堆</span><br><span class="line">|Null |堆</span><br><span class="line">|undefined |堆</span><br><span class="line">|BigInit |堆</span><br><span class="line">|Symbol |堆</span><br></pre></td></tr></table></figure>
@@ -256,7 +277,7 @@
 <p>上述结论主要是从 heap snapshots 和栈的特性中得出，毕竟最正确的答案是在源码中获得，如有不当，请指正。</p>
 <h2 id="JS-内存回收"><a href="#JS-内存回收" class="headerlink" title="JS 内存回收"></a>JS 内存回收</h2><h3 id="栈内存回收"><a href="#栈内存回收" class="headerlink" title="栈内存回收"></a>栈内存回收</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">fn1</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="comment">//....</span></span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">fn2</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">fn2</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">fn1</span>();</span><br></pre></td></tr></table></figure>
 
-<p>图片</p>
+<p><img src="http://rihkyzx08.bkt.clouddn.com/js/13.png"></p>
 <p>调用栈中有一个记录当前执行状态的指针（称为 ESP），随着函数的执行，函数执行上下文被压入调用栈中，执行上下文中的数据会按照前面说的 JS 数据存储机制被分配到堆栈中，ESP 会指向最后压栈的执行上下文，如左图所示的 fn2 函数。<br>当 fn2 函数调用完毕，JS 会把 ESP 指针下移至 fn1 函数，这个指针下移的操作就是销毁 fn1 函数执行上下文的过程。最后 fn1 函数执行上下文所占用的区域会变成无效区域，下一个函数执行上下文压入调用栈的时候会直接覆盖其内存空间。</p>
 <p>简而言之，只要函数调用结束，该栈内存就会自动被回收，不需要我们操心。刚刚我们也聊到闭包，如果出现闭包的情况，闭包的数据就会组成一个对象保存在堆空间里。</p>
 <h3 id="堆内存回收"><a href="#堆内存回收" class="headerlink" title="堆内存回收"></a>堆内存回收</h3><p>内存垃圾回收领域中有个重要术语：代际假说，其有以下两个特点：</p>
@@ -273,28 +294,28 @@
 <li>最终内存从 22.5m 上升至 34.6m，conversation 实例从 443 上升至 1117，message 实例从 443 上升至 1287，而该用户实际只有 221 个会话</li>
 <li>不断在会话间切换，通过 timeline 看到有内存没被释放，而且生成 detached dom</li>
 </ol>
-<p>图片<br>通过上述观测，可以判断为有内存泄漏情况。</p>
+<p><img src="http://rihkyzx08.bkt.clouddn.com/js/14.png"><br>通过上述观测，可以判断为有内存泄漏情况。</p>
 <h3 id="确定内存泄漏排查方式"><a href="#确定内存泄漏排查方式" class="headerlink" title="确定内存泄漏排查方式"></a>确定内存泄漏排查方式</h3><p>IM 页分为：会话列表，会话顶栏，消息列表，输入框四部分。使用逐一排查法缩小排查范围，排查各个部分内存情况。如：先保留会话列表，注释其余三个部分，操作会话列表并使用 timeline 和 heap snapshots 进行内存排查。按照这一方法逐步排查四个部分组件，并针对各个组件进行优化。可以简单归纳成一个通用步骤：</p>
 <ol>
 <li>使用 timeline 进行录制，观察是否像上面那样有不被释放的内存区域</li>
 <li>选择不被释放的区域进行查看，先找自己项目中的锚点物：像我们 IM 数据都是用 conversation 和 messsage 对象进行储存，所以可以先进行这两个对象的搜索查看</li>
-<li>如果没有好的锚点物也没关系，接着查看 detached dom（毕竟很多事件绑定在 dom 中，事件中引用着数据，造成无法被释放）和 string<br>图片<br>有些 detached dom 可能是 react 虚拟 dom 的数据，但像上面的 Detached HTMLAudioElement 会随着操作一直增加，所以这个是不正常的。</li>
+<li>如果没有好的锚点物也没关系，接着查看 detached dom（毕竟很多事件绑定在 dom 中，事件中引用着数据，造成无法被释放）和 string<br><img src="http://rihkyzx08.bkt.clouddn.com/js/15.png"><br>有些 detached dom 可能是 react 虚拟 dom 的数据，但像上面的 Detached HTMLAudioElement 会随着操作一直增加，所以这个是不正常的。</li>
 </ol>
-<p>图片<br>像这里 string 的重复，经排查是有相同 conversation 和 message 对象引起</p>
-<p>图片<br>堆快照里包含太多运行时、上下文等信息，实在太难从中找到有用的信息，所以会把目标放在锚点物、detached dom 和 string 上</p>
+<p><img src="http://rihkyzx08.bkt.clouddn.com/js/16.png"><br>像这里 string 的重复，经排查是有相同 conversation 和 message 对象引起</p>
+<p><img src="http://rihkyzx08.bkt.clouddn.com/js/17.png"><br>堆快照里包含太多运行时、上下文等信息，实在太难从中找到有用的信息，所以会把目标放在锚点物、detached dom 和 string 上</p>
 <ol start="4">
-<li>利用 heap snapshot 的 comparison 模式过滤出操作阶段内存变更情况，更有利于查找影响位置<br>图片<br>上面是个人进行内存泄露排查整理的方法，如果你有更好的方法，欢迎交流 ∠(° ゝ °)</li>
+<li>利用 heap snapshot 的 comparison 模式过滤出操作阶段内存变更情况，更有利于查找影响位置<br><img src="http://rihkyzx08.bkt.clouddn.com/js/18.png"><br>上面是个人进行内存泄露排查整理的方法，如果你有更好的方法，欢迎交流 ∠(° ゝ °)</li>
 </ol>
-<p>React 中一个需要注意的内存泄漏问题<br>图片<br><strong>现象：</strong> 当组件被销毁后，仍有一些异步事件调用组件中 setState 方法</p>
+<p>React 中一个需要注意的内存泄漏问题<br><img src="http://rihkyzx08.bkt.clouddn.com/js/19.png"><br><strong>现象：</strong> 当组件被销毁后，仍有一些异步事件调用组件中 setState 方法</p>
 <p><strong>原理：</strong> 组件销毁后，再调用 setstate 方法会保留相关引用，造成内存泄漏</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 测试代码</span></span><br><span class="line"><span class="keyword">const</span> [test, setTest] = <span class="title function_">useState</span>(<span class="literal">null</span>);</span><br><span class="line"><span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  (<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="comment">// 这里表达一个异步操作如：xhr、fetch、promise等等</span></span><br><span class="line">    <span class="keyword">await</span> <span class="title function_">sleep</span>(<span class="number">3000</span>);</span><br><span class="line">    <span class="keyword">const</span> obj = <span class="keyword">new</span> <span class="title class_">TestObj</span>();</span><br><span class="line">    <span class="title function_">setTest</span>(obj);</span><br><span class="line">  &#125;)();</span><br><span class="line">&#125;, []);</span><br></pre></td></tr></table></figure>
 
-<p>图片<br>如果把代码改成这样，就不会造成内存泄漏：</p>
+<p><img src="http://rihkyzx08.bkt.clouddn.com/js/20.png"><br>如果把代码改成这样，就不会造成内存泄漏：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [test, setTest] = <span class="title function_">useState</span>(<span class="literal">null</span>);</span><br><span class="line"><span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> unMounted = <span class="literal">false</span>;</span><br><span class="line">  (<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">await</span> <span class="title function_">sleep</span>(<span class="number">3000</span>);</span><br><span class="line">    <span class="keyword">if</span> (unMounted) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">const</span> obj = <span class="keyword">new</span> <span class="title class_">TestObj</span>();</span><br><span class="line">    <span class="title function_">setTest</span>(obj);</span><br><span class="line">  &#125;)();</span><br><span class="line">  <span class="keyword">return</span> <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    unMounted = <span class="literal">true</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;, []);</span><br></pre></td></tr></table></figure>
 
 <p>这是在开发环境测试的，翻看源码发现 react 只会在开发模式保留这些引用，然后抛出 warning 来提醒开发者这里可能有内存泄漏的问题（如这些 setState 是注册在全局事件里或者 setInterval 里的调用），生产环境是不会对其进行引用，所以不需要额外进行处理也不会造成内存泄漏</p>
-<p>图片<br>图片<br>图片<br>react18 更是直接把这个报错给干掉，以免误导开发者使用刚刚说的类似手段来进行避免报错，这里有做解释：<a target="_blank" rel="noopener" href="https://github.com/facebook/react/pull/22114">https://github.com/facebook/react/pull/22114</a></p>
-<p>图片</p>
+<p><img src="http://rihkyzx08.bkt.clouddn.com/js/21.jpg"><br><img src="http://rihkyzx08.bkt.clouddn.com/js/22.jpg"><br><img src="http://rihkyzx08.bkt.clouddn.com/js/23.jpg"><br>react18 更是直接把这个报错给干掉，以免误导开发者使用刚刚说的类似手段来进行避免报错，这里有做解释：<a target="_blank" rel="noopener" href="https://github.com/facebook/react/pull/22114">https://github.com/facebook/react/pull/22114</a></p>
+<p><img src="http://rihkyzx08.bkt.clouddn.com/js/24.jpg"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文先是讲述 js 类型在内存空间的储存位置，接着探讨堆栈中的内存是如何进行回收，最后描述内存泄漏确定和排查的方法，也补充一个 react 中有关 setState 造成“内存泄漏”的例子。内存泄漏在复杂应用中是难以避免的，个人排查也只能是解决一些比较明显的内存泄漏现象。所以为了更好地解决这个应用内内存泄漏问题，必须做好线上监控，利用广大用户操作数据，发现内存泄漏问题，进而不断改善应用的性能。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://developer.chrome.com/docs/devtools/memory-problems/memory-101/">https://developer.chrome.com/docs/devtools/memory-problems/memory-101/</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/goloving/p/15352261.html">https://www.cnblogs.com/goloving/p/15352261.html</a><br><a target="_blank" rel="noopener" href="https://hashnode.com/post/does-javascript-use-stack-or-heap-for-memory-allocation-or-both-cj5jl90xl01nh1twuv8ug0bjk">https://hashnode.com/post/does-javascript-use-stack-or-heap-for-memory-allocation-or-both-cj5jl90xl01nh1twuv8ug0bjk</a><br><a target="_blank" rel="noopener" href="https://www.ditdot.hr/en/causes-of-memory-leaks-in-javascript-and-how-to-avoid-them">https://www.ditdot.hr/en/causes-of-memory-leaks-in-javascript-and-how-to-avoid-them</a></p>
 
@@ -331,12 +352,12 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Share">
+      <meta itemprop="name" content="Ripples">
       <meta itemprop="description" content="">
     </span>
     
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Share">
+      <meta itemprop="name" content="undefined | Ripples">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -406,12 +427,12 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Share">
+      <meta itemprop="name" content="Ripples">
       <meta itemprop="description" content="">
     </span>
     
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Share">
+      <meta itemprop="name" content="undefined | Ripples">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -487,8 +508,6 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Range</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a>
-  </div>
 
     </div>
   </footer>
