@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.10.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="MVVM简介MVVM是Model-View-ViewModel的简写。它萌芽于 2005 年微软推出的基于 Windows 的⽤户界⾯框架 WPF ，而前端最早的 MVVM 框架 knockout 在 2010 年发布。可能大部分开发者是在接触前端时才开始了解MVVM，比如目前流行的三大前端框架Vue.js、React.js、Angular.js，它们无一不是用到了MVVM的设计思想，而MVVM也">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WMS中MVVMLight的使用——引入篇">
+<meta property="og:url" content="http://example.com/2022/11/12/WMS%E4%B8%ADMVVMLight%E7%9A%84%E4%BD%BF%E7%94%A8%E2%80%94%E2%80%94%E5%BC%95%E5%85%A5%E7%AF%87/index.html">
+<meta property="og:site_name" content="Ripples">
+<meta property="og:description" content="MVVM简介MVVM是Model-View-ViewModel的简写。它萌芽于 2005 年微软推出的基于 Windows 的⽤户界⾯框架 WPF ，而前端最早的 MVVM 框架 knockout 在 2010 年发布。可能大部分开发者是在接触前端时才开始了解MVVM，比如目前流行的三大前端框架Vue.js、React.js、Angular.js，它们无一不是用到了MVVM的设计思想，而MVVM也">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://resource.irange.top/csharp/mvvmlight_nuget.jpg">
+<meta property="og:image" content="https://resource.irange.top/csharp/mvvmlight_demo.png">
+<meta property="og:image" content="https://resource.irange.top/csharp/mvvmlight_error1.png">
+<meta property="og:image" content="https://resource.irange.top/csharp/mvvmlight_resolve1.png">
+<meta property="og:image" content="https://resource.irange.top/csharp/mvvmlight_error2.png">
+<meta property="article:published_time" content="2022-11-12T02:47:47.000Z">
+<meta property="article:modified_time" content="2022-11-12T08:11:28.102Z">
+<meta property="article:author" content="Range">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="WPF">
+<meta property="article:tag" content="MvvmLight">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://resource.irange.top/csharp/mvvmlight_nuget.jpg">
+
+
+<link rel="canonical" href="http://example.com/2022/11/12/WMS%E4%B8%ADMVVMLight%E7%9A%84%E4%BD%BF%E7%94%A8%E2%80%94%E2%80%94%E5%BC%95%E5%85%A5%E7%AF%87/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2022/11/12/WMS%E4%B8%ADMVVMLight%E7%9A%84%E4%BD%BF%E7%94%A8%E2%80%94%E2%80%94%E5%BC%95%E5%85%A5%E7%AF%87/","path":"2022/11/12/WMS中MVVMLight的使用——引入篇/","title":"WMS中MVVMLight的使用——引入篇"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>WMS中MVVMLight的使用——引入篇 | Ripples</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Ripples</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Look up to see the stars,look down to see the dust</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MVVM%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">MVVM简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVVMLight%E7%AE%80%E4%BB%8B"><span class="nav-number">2.</span> <span class="nav-text">MVVMLight简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVVMLight%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">MVVMLight的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%87%E5%9D%91%E4%B8%8E%E5%A1%AB%E5%9D%91"><span class="nav-number">4.</span> <span class="nav-text">遇坑与填坑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E"><span class="nav-number">5.</span> <span class="nav-text">写在最后</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Range</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/12/WMS%E4%B8%ADMVVMLight%E7%9A%84%E4%BD%BF%E7%94%A8%E2%80%94%E2%80%94%E5%BC%95%E5%85%A5%E7%AF%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Range">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ripples">
+      <meta itemprop="description" content="">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="WMS中MVVMLight的使用——引入篇 | Ripples">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          WMS中MVVMLight的使用——引入篇
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2022-11-12 10:47:47 / Modified: 16:11:28" itemprop="dateCreated datePublished" datetime="2022-11-12T10:47:47+08:00">2022-11-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Wpf-MvvmLight-SelfHost/" itemprop="url" rel="index"><span itemprop="name">Wpf.MvvmLight.SelfHost</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="MVVM简介"><a href="#MVVM简介" class="headerlink" title="MVVM简介"></a>MVVM简介</h2><p>MVVM是Model-View-ViewModel的简写。它萌芽于 2005 年微软推出的基于 Windows 的⽤户界⾯框架 WPF ，而前端最早的 MVVM 框架 knockout 在 2010 年发布。可能大部分开发者是在接触前端时才开始了解MVVM，比如目前流行的三大前端框架Vue.js、React.js、Angular.js，它们无一不是用到了MVVM的设计思想，而MVVM也是因为它们被广大开发者所熟知。</p>
+<p>MVVM类似于MVC、MVP等设计模式，它的主要目的是为了分离视图（View）和模型（Model）的耦合，它是一种优秀的设计模式，而并非框架级别的东西，由MVP（Model-View-Presenter）模式与WPF结合的应用方式时发展演变过来的一种新型架构。</p>
+<p>MVVM主要有如下几大优点：</p>
+<ol>
+<li><strong>低耦合：</strong>视图（View）可以独立于Model变化和修改，一个ViewModel可以绑定到不同的View上，当View变化的时候Model可以不变，当Model变化的时候View也可以不变。</li>
+<li><strong>可重用性：</strong>可以把一些视图逻辑放在一个ViewModel里面，让很多View重用这段视图逻辑。</li>
+<li><strong>独立开发：</strong>开发人员可以专注于业务逻辑和数据的开发（ViewModel），设计人员可以专注于页面设计，使用Expression Blend可以很容易设计界面并生成xml代码。</li>
+<li><strong>可测试：</strong>界面素来是比较难于测试的，而现在测试可以针对ViewModel来写。</li>
+</ol>
+<p>随着现在各种前端框架对MVVM的应用，MVVM相关的资料也是日益丰富，希望对其有更进一步了解的同学可以自行上网查询，关于WPF中MVVM的介绍，可以参考这篇<a target="_blank" rel="noopener" href="https://www.codeproject.com/kb/wpf/wpfmvvmquickstart.aspx">文章</a>，作者从MVVM的模式介绍到数据绑定、消息通知、命令等几个主要方面都有详细的说明。</p>
+<h2 id="MVVMLight简介"><a href="#MVVMLight简介" class="headerlink" title="MVVMLight简介"></a>MVVMLight简介</h2><p>MVVMLight是个应用于WPF的轻量化的MVVM框架，它算是历史悠久了，作者也早早地停止了维护，是个较为小众的框架，但应用它的项目却不算少，有些甚至耳熟能详(比如虎牙客户端)。</p>
+<p>除了MVVMLight，另外推荐2个值得大家去学习了解的MVVM框架：MVVM Toolkit和Prism。MVVM Toolkit在一定程度上是对MVVMLight的优化、延申和扩展，而Prism则是一个重型的MVVM框架，提供的功能很强大。</p>
+<p>WMS中主要用的是MVVMLight，而它也是我们今天的主角。</p>
+<h2 id="MVVMLight的使用"><a href="#MVVMLight的使用" class="headerlink" title="MVVMLight的使用"></a>MVVMLight的使用</h2><p>要在项目中使用MVVMLight，需要先将其引入到项目中，主要有两种方式：</p>
+<ol>
+<li><p>官网上下载MVVMLight Toolkit，安装之后，VS模板中会出现MvvmLight项目模板，你可以直接使用该项目模板来创建项目了。通过模板创建的项目中会包含默认的ViewModelLocator和MainViewModel，MainViewModel就是你Main视图的ViewModel了，而ViewModelLocator是一个全局的ViewModel加载注册器。</p>
+</li>
+<li><p>通过NuGet进行安装（推荐），方便快捷，下面主要介绍此方法。</p>
+</li>
+</ol>
+<p>在NuGet包管理工具中搜索”MVVMLight”可得到下面结果：</p>
+<p><img src="https://resource.irange.top/csharp/mvvmlight_nuget.jpg"></p>
+<p>这里主要关注上面前三个搜索结果，它们之间也是有一定的区别的。</p>
+<ul>
+<li><strong>MvvmLight:</strong> 包含MVVMLight核心库，并且在安装之后，除了在你的项目中添加MVVMLight库之外，还会自动生成开发脚手架，添加相关分层文件目录，提供一个简单的MVVMLight开发框架，方便开发者进行开发，项目结构如下所示。</li>
+</ul>
+<p><img src="https://resource.irange.top/csharp/mvvmlight_demo.png"></p>
+<p>如上图，它会帮你生成ViewModel文件夹，里面包含了MainViewModel和ViewModelLocator文件</p>
+<p><strong>ViewModelLocator：</strong>对应该类包含对应用程序中所有视图模型的静态引用，并为绑定提供入口点。简而言之，主要作用就是可在此类中，通过MVVMLight自带的Ioc容器对各个ViewModel进行注入操作，方便在View中进行使用。</p>
+<p><strong>MainViewModel：</strong>此类包含主视图可以数据绑定到的属性，是MVVMLight提供的一个ViewModel实例。</p>
+<ul>
+<li><strong>MvvmLightLibs：</strong>它只包含MVVMLight核心库，并且安装之后，不会自动生成开发脚手架，不会添加任何文件目录，算是个纯净版MVVMLight库，开发者安装之后可以自己手动进行项目文件目录分层等操作。</li>
+<li><strong>MvvmLightLibsStd10：</strong>它也是个纯净版的MVVMLight库，和上面有所区别的是，它是个.NET Standard类库，可以兼容其他的.NET框架，更通用。</li>
+</ul>
+<h2 id="遇坑与填坑"><a href="#遇坑与填坑" class="headerlink" title="遇坑与填坑"></a>遇坑与填坑</h2><p><strong>1.ViewModelLocator文件报错</strong></p>
+<p>遇坑：安装MvvmLight后，其自动生成的ViewModelLocator文件出现报错问题。</p>
+<p><img src="https://resource.irange.top/csharp/mvvmlight_error1.png"></p>
+<p>原因：由于该库长时间未维护，脚手架自动生成的代码文件有误。</p>
+<p>填坑：更换对相关库的引用即可解决问题。</p>
+<p><img src="https://resource.irange.top/csharp/mvvmlight_resolve1.png"></p>
+<p><strong>2.App.xaml文件报错</strong></p>
+<p>遇坑：安装MvvmLight后，App.xaml文件出现报错问题。</p>
+<p><img src="https://resource.irange.top/csharp/mvvmlight_error2.png"></p>
+<p>原因：安装完库后，未重新生成项目。</p>
+<p>填坑：重新生成项目即可解决问题。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>其实MVVMLight这个库已经很古老了，很早就停止了维护，就连作者本人也是建议使用<a target="_blank" rel="noopener" href="https://docs.microsoft.com/windows/communitytoolkit/mvvm/introduction">Microsoft MVVM Toolkit</a>，尽管如此，仍然有很多的项目在使用着MVVMLight，可以看出它确实是个很优秀的MVVM库，不过我也会听从作者的建议，去拥抱新技术，希望各位有梦想的coder也不要停滞不前。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C#</a>
+              <a href="/tags/WPF/" rel="tag"># WPF</a>
+              <a href="/tags/MvvmLight/" rel="tag"># MvvmLight</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/11/08/WMS%E4%B8%ADRestSharp%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="prev" title="WMS中RestSharp的使用">
+                  <i class="fa fa-chevron-left"></i> WMS中RestSharp的使用
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">皖ICP备2022015209号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Range</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

@@ -129,7 +129,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -169,6 +169,130 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/12/WMS%E4%B8%ADMVVMLight%E7%9A%84%E4%BD%BF%E7%94%A8%E2%80%94%E2%80%94%E5%BC%95%E5%85%A5%E7%AF%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Range">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ripples">
+      <meta itemprop="description" content="">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Ripples">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/11/12/WMS%E4%B8%ADMVVMLight%E7%9A%84%E4%BD%BF%E7%94%A8%E2%80%94%E2%80%94%E5%BC%95%E5%85%A5%E7%AF%87/" class="post-title-link" itemprop="url">WMS中MVVMLight的使用——引入篇</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2022-11-12 10:47:47 / Modified: 16:11:28" itemprop="dateCreated datePublished" datetime="2022-11-12T10:47:47+08:00">2022-11-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Wpf-MvvmLight-SelfHost/" itemprop="url" rel="index"><span itemprop="name">Wpf.MvvmLight.SelfHost</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="MVVM简介"><a href="#MVVM简介" class="headerlink" title="MVVM简介"></a>MVVM简介</h2><p>MVVM是Model-View-ViewModel的简写。它萌芽于 2005 年微软推出的基于 Windows 的⽤户界⾯框架 WPF ，而前端最早的 MVVM 框架 knockout 在 2010 年发布。可能大部分开发者是在接触前端时才开始了解MVVM，比如目前流行的三大前端框架Vue.js、React.js、Angular.js，它们无一不是用到了MVVM的设计思想，而MVVM也是因为它们被广大开发者所熟知。</p>
+<p>MVVM类似于MVC、MVP等设计模式，它的主要目的是为了分离视图（View）和模型（Model）的耦合，它是一种优秀的设计模式，而并非框架级别的东西，由MVP（Model-View-Presenter）模式与WPF结合的应用方式时发展演变过来的一种新型架构。</p>
+<p>MVVM主要有如下几大优点：</p>
+<ol>
+<li><strong>低耦合：</strong>视图（View）可以独立于Model变化和修改，一个ViewModel可以绑定到不同的View上，当View变化的时候Model可以不变，当Model变化的时候View也可以不变。</li>
+<li><strong>可重用性：</strong>可以把一些视图逻辑放在一个ViewModel里面，让很多View重用这段视图逻辑。</li>
+<li><strong>独立开发：</strong>开发人员可以专注于业务逻辑和数据的开发（ViewModel），设计人员可以专注于页面设计，使用Expression Blend可以很容易设计界面并生成xml代码。</li>
+<li><strong>可测试：</strong>界面素来是比较难于测试的，而现在测试可以针对ViewModel来写。</li>
+</ol>
+<p>随着现在各种前端框架对MVVM的应用，MVVM相关的资料也是日益丰富，希望对其有更进一步了解的同学可以自行上网查询，关于WPF中MVVM的介绍，可以参考这篇<a target="_blank" rel="noopener" href="https://www.codeproject.com/kb/wpf/wpfmvvmquickstart.aspx">文章</a>，作者从MVVM的模式介绍到数据绑定、消息通知、命令等几个主要方面都有详细的说明。</p>
+<h2 id="MVVMLight简介"><a href="#MVVMLight简介" class="headerlink" title="MVVMLight简介"></a>MVVMLight简介</h2><p>MVVMLight是个应用于WPF的轻量化的MVVM框架，它算是历史悠久了，作者也早早地停止了维护，是个较为小众的框架，但应用它的项目却不算少，有些甚至耳熟能详(比如虎牙客户端)。</p>
+<p>除了MVVMLight，另外推荐2个值得大家去学习了解的MVVM框架：MVVM Toolkit和Prism。MVVM Toolkit在一定程度上是对MVVMLight的优化、延申和扩展，而Prism则是一个重型的MVVM框架，提供的功能很强大。</p>
+<p>WMS中主要用的是MVVMLight，而它也是我们今天的主角。</p>
+<h2 id="MVVMLight的使用"><a href="#MVVMLight的使用" class="headerlink" title="MVVMLight的使用"></a>MVVMLight的使用</h2><p>要在项目中使用MVVMLight，需要先将其引入到项目中，主要有两种方式：</p>
+<ol>
+<li><p>官网上下载MVVMLight Toolkit，安装之后，VS模板中会出现MvvmLight项目模板，你可以直接使用该项目模板来创建项目了。通过模板创建的项目中会包含默认的ViewModelLocator和MainViewModel，MainViewModel就是你Main视图的ViewModel了，而ViewModelLocator是一个全局的ViewModel加载注册器。</p>
+</li>
+<li><p>通过NuGet进行安装（推荐），方便快捷，下面主要介绍此方法。</p>
+</li>
+</ol>
+<p>在NuGet包管理工具中搜索”MVVMLight”可得到下面结果：</p>
+<p><img src="https://resource.irange.top/csharp/mvvmlight_nuget.jpg"></p>
+<p>这里主要关注上面前三个搜索结果，它们之间也是有一定的区别的。</p>
+<ul>
+<li><strong>MvvmLight:</strong> 包含MVVMLight核心库，并且在安装之后，除了在你的项目中添加MVVMLight库之外，还会自动生成开发脚手架，添加相关分层文件目录，提供一个简单的MVVMLight开发框架，方便开发者进行开发，项目结构如下所示。</li>
+</ul>
+<p><img src="https://resource.irange.top/csharp/mvvmlight_demo.png"></p>
+<p>如上图，它会帮你生成ViewModel文件夹，里面包含了MainViewModel和ViewModelLocator文件</p>
+<p><strong>ViewModelLocator：</strong>对应该类包含对应用程序中所有视图模型的静态引用，并为绑定提供入口点。简而言之，主要作用就是可在此类中，通过MVVMLight自带的Ioc容器对各个ViewModel进行注入操作，方便在View中进行使用。</p>
+<p><strong>MainViewModel：</strong>此类包含主视图可以数据绑定到的属性，是MVVMLight提供的一个ViewModel实例。</p>
+<ul>
+<li><strong>MvvmLightLibs：</strong>它只包含MVVMLight核心库，并且安装之后，不会自动生成开发脚手架，不会添加任何文件目录，算是个纯净版MVVMLight库，开发者安装之后可以自己手动进行项目文件目录分层等操作。</li>
+<li><strong>MvvmLightLibsStd10：</strong>它也是个纯净版的MVVMLight库，和上面有所区别的是，它是个.NET Standard类库，可以兼容其他的.NET框架，更通用。</li>
+</ul>
+<h2 id="遇坑与填坑"><a href="#遇坑与填坑" class="headerlink" title="遇坑与填坑"></a>遇坑与填坑</h2><p><strong>1.ViewModelLocator文件报错</strong></p>
+<p>遇坑：安装MvvmLight后，其自动生成的ViewModelLocator文件出现报错问题。</p>
+<p><img src="https://resource.irange.top/csharp/mvvmlight_error1.png"></p>
+<p>原因：由于该库长时间未维护，脚手架自动生成的代码文件有误。</p>
+<p>填坑：更换对相关库的引用即可解决问题。</p>
+<p><img src="https://resource.irange.top/csharp/mvvmlight_resolve1.png"></p>
+<p><strong>2.App.xaml文件报错</strong></p>
+<p>遇坑：安装MvvmLight后，App.xaml文件出现报错问题。</p>
+<p><img src="https://resource.irange.top/csharp/mvvmlight_error2.png"></p>
+<p>原因：安装完库后，未重新生成项目。</p>
+<p>填坑：重新生成项目即可解决问题。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>其实MVVMLight这个库已经很古老了，很早就停止了维护，就连作者本人也是建议使用<a target="_blank" rel="noopener" href="https://docs.microsoft.com/windows/communitytoolkit/mvvm/introduction">Microsoft MVVM Toolkit</a>，尽管如此，仍然有很多的项目在使用着MVVMLight，可以看出它确实是个很优秀的MVVM库，不过我也会听从作者的建议，去拥抱新技术，希望各位有梦想的coder也不要停滞不前。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
