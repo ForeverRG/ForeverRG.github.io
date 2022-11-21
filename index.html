@@ -129,7 +129,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -178,7 +178,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/12/WMS%E4%B8%ADMVVMLight%E7%9A%84%E4%BD%BF%E7%94%A8%E2%80%94%E2%80%94%E5%BC%95%E5%85%A5%E7%AF%87/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/13/WMS%E4%B8%ADMVVMLight%E7%9A%84%E4%BD%BF%E7%94%A8%E2%80%94%E5%88%86%E5%B1%82%E7%AF%87/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -196,7 +196,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/11/12/WMS%E4%B8%ADMVVMLight%E7%9A%84%E4%BD%BF%E7%94%A8%E2%80%94%E2%80%94%E5%BC%95%E5%85%A5%E7%AF%87/" class="post-title-link" itemprop="url">WMS中MVVMLight的使用——引入篇</a>
+          <a href="/2022/11/13/WMS%E4%B8%ADMVVMLight%E7%9A%84%E4%BD%BF%E7%94%A8%E2%80%94%E5%88%86%E5%B1%82%E7%AF%87/" class="post-title-link" itemprop="url">WMS中MVVMLight的使用—分层篇</a>
         </h2>
 
         <div class="post-meta-container">
@@ -206,9 +206,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2022-11-12 10:47:47 / Modified: 16:11:28" itemprop="dateCreated datePublished" datetime="2022-11-12T10:47:47+08:00">2022-11-12</time>
+      <time title="Created: 2022-11-13 15:48:12" itemprop="dateCreated datePublished" datetime="2022-11-13T15:48:12+08:00">2022-11-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-11-21 16:24:58" itemprop="dateModified" datetime="2022-11-21T16:24:58+08:00">2022-11-21</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -230,52 +236,166 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="MVVM简介"><a href="#MVVM简介" class="headerlink" title="MVVM简介"></a>MVVM简介</h2><p>MVVM是Model-View-ViewModel的简写。它萌芽于 2005 年微软推出的基于 Windows 的⽤户界⾯框架 WPF ，而前端最早的 MVVM 框架 knockout 在 2010 年发布。可能大部分开发者是在接触前端时才开始了解MVVM，比如目前流行的三大前端框架Vue.js、React.js、Angular.js，它们无一不是用到了MVVM的设计思想，而MVVM也是因为它们被广大开发者所熟知。</p>
-<p>MVVM类似于MVC、MVP等设计模式，它的主要目的是为了分离视图（View）和模型（Model）的耦合，它是一种优秀的设计模式，而并非框架级别的东西，由MVP（Model-View-Presenter）模式与WPF结合的应用方式时发展演变过来的一种新型架构。</p>
-<p>MVVM主要有如下几大优点：</p>
+          <p>在前面的<a target="_blank" rel="noopener" href="https://www.irange.top/2022/11/12/WMS%E4%B8%ADMVVMLight%E7%9A%84%E4%BD%BF%E7%94%A8%E2%80%94%E2%80%94%E5%BC%95%E5%85%A5%E7%AF%87/">《引入篇》</a>中，初步介绍了如何在一个项目中引入 MVVMLight，当 MVVMLight 安装之后，我们可以看到简易的框架布局，生成了一个 ViewModel 文件夹，ViewModel 层的内容都放在这边，除了 Main 对象的 ViewModel 之外，还包含一个 ViewModelLocator 文件，主要用来注入全局实例（此部分将单独开篇进行介绍），在本篇中，我们来了解下一个基本的 MVVMLight 框架所必须的分层结构。</p>
+<h2 id="分层结构"><a href="#分层结构" class="headerlink" title="分层结构"></a>分层结构</h2><p><img src="https://resource.irange.top/csharp/WMS%E4%B8%ADMVVMLight%E7%9A%84%E4%BD%BF%E7%94%A8%E2%80%94%E5%88%86%E5%B1%82%E7%AF%87/1.png"></p>
+<p>如上图所示：</p>
 <ol>
-<li><strong>低耦合：</strong>视图（View）可以独立于Model变化和修改，一个ViewModel可以绑定到不同的View上，当View变化的时候Model可以不变，当Model变化的时候View也可以不变。</li>
-<li><strong>可重用性：</strong>可以把一些视图逻辑放在一个ViewModel里面，让很多View重用这段视图逻辑。</li>
-<li><strong>独立开发：</strong>开发人员可以专注于业务逻辑和数据的开发（ViewModel），设计人员可以专注于页面设计，使用Expression Blend可以很容易设计界面并生成xml代码。</li>
-<li><strong>可测试：</strong>界面素来是比较难于测试的，而现在测试可以针对ViewModel来写。</li>
+<li>View 层：主要负责前端展示以及与 ViewModel 进行数据绑定和命令交互。一般来说，View 层不写相关的业务逻辑代码，但凡是都有例外，如果你的业务逻辑与界面必须耦合，那也可以将此类操作写在 View 后置类的代码中。</li>
+<li>ViewModel 层：主要负责前端视图业务级别的逻辑结构组织，并将其反馈给前端。</li>
+<li>Model 层：主要负责数据实体的结构定义，与 ViewModel 进行交互。</li>
 </ol>
-<p>随着现在各种前端框架对MVVM的应用，MVVM相关的资料也是日益丰富，希望对其有更进一步了解的同学可以自行上网查询，关于WPF中MVVM的介绍，可以参考这篇<a target="_blank" rel="noopener" href="https://www.codeproject.com/kb/wpf/wpfmvvmquickstart.aspx">文章</a>，作者从MVVM的模式介绍到数据绑定、消息通知、命令等几个主要方面都有详细的说明。</p>
-<h2 id="MVVMLight简介"><a href="#MVVMLight简介" class="headerlink" title="MVVMLight简介"></a>MVVMLight简介</h2><p>MVVMLight是个应用于WPF的轻量化的MVVM框架，它算是历史悠久了，作者也早早地停止了维护，是个较为小众的框架，但应用它的项目却不算少，有些甚至耳熟能详(比如虎牙客户端)。</p>
-<p>除了MVVMLight，另外推荐2个值得大家去学习了解的MVVM框架：MVVM Toolkit和Prism。MVVM Toolkit在一定程度上是对MVVMLight的优化、延申和扩展，而Prism则是一个重型的MVVM框架，提供的功能很强大。</p>
-<p>WMS中主要用的是MVVMLight，而它也是我们今天的主角。</p>
-<h2 id="MVVMLight的使用"><a href="#MVVMLight的使用" class="headerlink" title="MVVMLight的使用"></a>MVVMLight的使用</h2><p>要在项目中使用MVVMLight，需要先将其引入到项目中，主要有两种方式：</p>
+<p><strong>注：</strong>在有的 MVVM 相关的项目中，开发者会将”视图模型”和”视图交互业务逻辑”都写在 ViewModel 中，其实没有什么不对，只是个人觉得视图模型和业务逻辑交互这一层还是应该另外独立，Model 就是完全的实体模型，这样会更加清晰，尤其是当视图模型格外繁杂的时候，将其独立出来的优点更加明显。</p>
+<h2 id="WMS-中的-MVVM"><a href="#WMS-中的-MVVM" class="headerlink" title="WMS 中的 MVVM"></a>WMS 中的 MVVM</h2><p>根据上述对分层结构的介绍，我们先来看下 WMS 项目结构中关于 MVVM 的分层目录结构，如下图。</p>
+<img src="https://resource.irange.top/csharp/WMS%E4%B8%ADMVVMLight%E7%9A%84%E4%BD%BF%E7%94%A8%E2%80%94%E5%88%86%E5%B1%82%E7%AF%87/2.png" style="zoom:50%;" />
+
+<h3 id="Model-层"><a href="#Model-层" class="headerlink" title="Model 层"></a>Model 层</h3><p>WMS 中”高级设置”模块对应的的 Model 层代码如下：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Wpf.MvvmLight.SelfHost.Common.Model;</span><br><span class="line"><span class="keyword">using</span> System.Collections.ObjectModel;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Wpf.MvvmLight.SelfHost.Common</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">AdvancedSettingsModel</span> : <span class="title">ObservableObject</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">private</span> ObservableCollection&lt;MenuBar&gt; menuBars;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">object</span> contentObj;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span> currentModuleType;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 菜单项</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> ObservableCollection&lt;MenuBar&gt; MenuBars</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">get</span> &#123; <span class="keyword">return</span> menuBars; &#125;</span><br><span class="line">      <span class="keyword">set</span> &#123; menuBars = <span class="keyword">value</span>; RaisePropertyChanged(); &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 视图展示区</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">object</span> ContentObj &#123; <span class="keyword">get</span> =&gt; contentObj; <span class="keyword">set</span> &#123; contentObj = <span class="keyword">value</span>; RaisePropertyChanged(); &#125; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 当前机型</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> CurrentModuleType &#123; <span class="keyword">get</span> =&gt; currentModuleType; <span class="keyword">set</span> &#123; currentModuleType = <span class="keyword">value</span>; RaisePropertyChanged(); &#125; &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>很简单，仅仅是包含一个实体对象，这边注意的的是那他继承了一个父类：ObservableObject，这个父类的作用就是保证能够检测属性是否被改变。</p>
+<p>它实现了 INotifyPropertyChanged 接口，通过触发 PropertyChanged 事件达到通知 UI 更改的目的；所以我们在定义实体对象的时候，只需要调用 RaisePropertyChanged(PropertyName)就可以进行属性更改通知了。所以实体里面定义的每个属性都加上 RaisePropertyChanged(PropertyName)的调用，就可以实现对 UI 的交互更新了。</p>
+<h3 id="ViewModel"><a href="#ViewModel" class="headerlink" title="ViewModel"></a>ViewModel</h3><p>WMS 中”高级设置”模块对应的的 ViewModel 层代码如下：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> GalaSoft.MvvmLight.CommandWpf;</span><br><span class="line"><span class="keyword">using</span> Wpf.MvvmLight.SelfHost.Common;</span><br><span class="line"><span class="keyword">using</span> Wpf.MvvmLight.SelfHost.Common.Model;</span><br><span class="line"><span class="keyword">using</span> Wpf.MvvmLight.SelfHost.EventBus;</span><br><span class="line"><span class="keyword">using</span> Wpf.MvvmLight.SelfHost.View.ASChildView;</span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Collections.ObjectModel;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> Wpf.MvvmLight.SelfHost.IServices;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Wpf.MvvmLight.SelfHost.ViewModel</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">AdvancedSettingsViewModel</span> : <span class="title">ViewModelBase</span>, <span class="title">IEventBus</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">private</span> IConfigServices _configServices;</span><br><span class="line">    <span class="keyword">private</span> AdvancedSettingsModel _advancedSettings;</span><br><span class="line">    <span class="keyword">private</span> Dictionary&lt;Type, <span class="built_in">object</span>&gt; _cachViews; <span class="comment">// 视图缓存</span></span><br><span class="line">    <span class="keyword">public</span> AdvancedSettingsModel AdvancedSettings &#123; <span class="keyword">get</span> =&gt; _advancedSettings; <span class="keyword">set</span> &#123; _advancedSettings = <span class="keyword">value</span>; RaisePropertyChanged(); &#125; &#125;</span><br><span class="line">    <span class="keyword">public</span> Dictionary&lt;Type, <span class="built_in">object</span>&gt; CachViews &#123; <span class="keyword">get</span> =&gt; _cachViews; <span class="keyword">set</span> &#123; _cachViews = <span class="keyword">value</span>; RaisePropertyChanged(); &#125; &#125;</span><br><span class="line">    <span class="keyword">public</span> RelayCommand&lt;MenuBar&gt; ShowViewCommand &#123; <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> RelayCommand SaveAllAdvancedSettingsCommand &#123; <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AdvancedSettingsViewModel</span>(<span class="params">IConfigServices configServices</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">      _configServices = configServices;</span><br><span class="line">      ShowViewCommand = <span class="keyword">new</span> RelayCommand&lt;MenuBar&gt;(ShowView);</span><br><span class="line">      SaveAllAdvancedSettingsCommand = <span class="keyword">new</span> RelayCommand(SaveAllAdvancedSettings);</span><br><span class="line"></span><br><span class="line">      AdvancedSettings = <span class="keyword">new</span> AdvancedSettingsModel</span><br><span class="line">      &#123;</span><br><span class="line">        MenuBars = CreateMenuBar(),</span><br><span class="line">        ContentObj = <span class="keyword">new</span> JigView()</span><br><span class="line">      &#125;;</span><br><span class="line">      CachViews = <span class="keyword">new</span> Dictionary&lt;Type, <span class="built_in">object</span>&gt;();</span><br><span class="line">      CachViews.Add(<span class="keyword">typeof</span>(JigView), AdvancedSettings.ContentObj);</span><br><span class="line">      RegisterMessageSignal();</span><br><span class="line">      UpdateHeaderInfo();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="keyword">region</span> ViewModel通信</span></span><br><span class="line">    <span class="comment">// 方案一：1.给绑定相应ViewModel的子视图中的相关控件命名；2.父视图ViewModel发送带参命令，参数为子视图对象；3.父视图ViewModel获取子视图对象后，获取已命名的控件对象，该对象包含了想要的数据源。</span></span><br><span class="line">    <span class="comment">// 注：父视图ViewModel带参命令中可通过&quot;object&quot;或者&quot;dynamic&quot;动态解析子视图对象。</span></span><br><span class="line">    <span class="comment">// 该方案只适用于父视图ViewModel获取子视图ViewModel相关数据，不适用子视图ViewModel获取父视图ViewModel数据。较繁琐，且涉嫌数据侵入，不建议使用。</span></span><br><span class="line">    <span class="comment">// 方案二：通过mvvm本身的消息机制来实现两个ViewModel之间的通信，如这里使用mvvmlight中的Messager来实现。此方法无视图关系局限，且无数据侵入，但注意消息的订阅和释放，建议使用。</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="keyword">region</span> 方案一</span></span><br><span class="line">    <span class="comment">//private void SaveAllAdvancedSettings(dynamic o)</span></span><br><span class="line">    <span class="comment">//&#123;</span></span><br><span class="line">    <span class="comment">//  var source = o.DataGrid.ItemsSource;</span></span><br><span class="line">    <span class="comment">//&#125;</span></span><br><span class="line">    <span class="meta">#<span class="keyword">endregion</span></span></span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="keyword">region</span> 方案二</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 保存所有高级设置</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">SaveAllAdvancedSettings</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">      MessengerInstance.Send(<span class="built_in">string</span>.Empty, <span class="string">&quot;SaveAdvancedSettingsSignal&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="keyword">endregion</span></span></span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="keyword">endregion</span></span></span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 导航视图</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;obj&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ShowView</span>(<span class="params">MenuBar obj</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">      Type type = Type.GetType(<span class="string">$&quot;Wpf.MvvmLight.SelfHost.View.ASChildView.<span class="subst">&#123;obj.ClassName&#125;</span>&quot;</span>);</span><br><span class="line">      <span class="built_in">object</span> viewObj;</span><br><span class="line">      <span class="keyword">if</span> (!CachViews.ContainsKey(type))</span><br><span class="line">      &#123;</span><br><span class="line">        viewObj = type.Assembly.CreateInstance(type.FullName);</span><br><span class="line">        CachViews.Add(type, viewObj);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">      &#123;</span><br><span class="line">        viewObj = CachViews[type];</span><br><span class="line">      &#125;</span><br><span class="line">      AdvancedSettings.ContentObj = viewObj;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 生成菜单项</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> ObservableCollection&lt;MenuBar&gt; <span class="title">CreateMenuBar</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">var</span> menuBars = <span class="keyword">new</span> ObservableCollection&lt;MenuBar&gt;();</span><br><span class="line">      menuBars.Add(<span class="keyword">new</span> MenuBar() &#123; Icon = <span class="string">&quot;ScoreboardOutline&quot;</span>, Title = <span class="string">&quot;夹具&quot;</span>, ClassName = <span class="string">&quot;JigView&quot;</span> &#125;);</span><br><span class="line">      menuBars.Add(<span class="keyword">new</span> MenuBar() &#123; Icon = <span class="string">&quot;GridLarge&quot;</span>, Title = <span class="string">&quot;Tray盘&quot;</span>, ClassName = <span class="string">&quot;TrayView&quot;</span> &#125;);</span><br><span class="line">      menuBars.Add(<span class="keyword">new</span> MenuBar() &#123; Icon = <span class="string">&quot;SimOutline&quot;</span>, Title = <span class="string">&quot;机型配置&quot;</span>, ClassName = <span class="string">&quot;ModuleSettingsView&quot;</span> &#125;);</span><br><span class="line">      menuBars.Add(<span class="keyword">new</span> MenuBar() &#123; Icon = <span class="string">&quot;MapMarkerPath&quot;</span>, Title = <span class="string">&quot;通道映射-双A&quot;</span>, ClassName = <span class="string">&quot;ChannelMappingView&quot;</span> &#125;);</span><br><span class="line">      menuBars.Add(<span class="keyword">new</span> MenuBar() &#123; Icon = <span class="string">&quot;SelectMarker&quot;</span>, Title = <span class="string">&quot;抓手负载定位&quot;</span>, ClassName = <span class="string">&quot;GripperLoadView&quot;</span> &#125;);</span><br><span class="line">      <span class="keyword">return</span> menuBars;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 更新其他相关信息</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">UpdateHeaderInfo</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">var</span> moduleTypeConfig = _configServices.GetSettings(c =&gt; c.Key == <span class="string">&quot;ModuleType&quot;</span>).Result?.FirstOrDefault();</span><br><span class="line">      AdvancedSettings.CurrentModuleType = moduleTypeConfig != <span class="literal">null</span> ? moduleTypeConfig.Value : <span class="built_in">string</span>.Empty;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">RegisterMessageSignal</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">      MessengerInstance.Register&lt;<span class="built_in">string</span>&gt;(<span class="keyword">this</span>, <span class="string">&quot;UpdateAdvancedSettingsInfoSignal&quot;</span>, UpdateAdvancedSettingsInfoSlot);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">UpdateAdvancedSettingsInfoSlot</span>(<span class="params"><span class="built_in">string</span> msg</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">      UpdateHeaderInfo();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">UnregisterMessageSignal</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> NotImplementedException();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也很简单，其中最主要的是包含了一个命名为 AdvancedSettings 的 AdvancedSettingsModel 属性，继承了 ViewBaseModel 父类。</p>
+<p>ViewBaseModel 同时继承 ObservableObject 类和 ICleanup 接口。所以他同样有 INotifyPropertyChanged 接口的能力，能够通过触发 PropertyChanged 事件达到通知 View 的目的；构造函数中对 AdvancedSettings 属性进行了实例化。</p>
+<h3 id="View"><a href="#View" class="headerlink" title="View"></a>View</h3><p>WMS 中”高级设置”模块对应的的 View 层代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">             xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;</span><br><span class="line">             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;</span><br><span class="line">             xmlns:mc=&quot;http://schemas.openxmlformats.org/markup-compatibility/2006&quot;</span><br><span class="line">             xmlns:d=&quot;http://schemas.microsoft.com/expression/blend/2008&quot;</span><br><span class="line">             xmlns:i=&quot;http://schemas.microsoft.com/xaml/behaviors&quot;</span><br><span class="line">             xmlns:local=&quot;clr-namespace:Wpf.MvvmLight.SelfHost.View&quot;</span><br><span class="line">             xmlns:materialDesign=&quot;http://materialdesigninxaml.net/winfx/xaml/themes&quot;</span><br><span class="line">             mc:Ignorable=&quot;d&quot;</span><br><span class="line">             d:DesignHeight=&quot;450&quot;</span><br><span class="line">             d:DesignWidth=&quot;800&quot;</span><br><span class="line">             DataContext=&quot;&#123;Binding Source=&#123;StaticResource Locator&#125;,Path=AdvancedSettings&#125;&quot;&gt;</span><br><span class="line">  &lt;Grid&gt;</span><br><span class="line">    &lt;Grid.RowDefinitions&gt;</span><br><span class="line">      &lt;RowDefinition Height=&quot;auto&quot; /&gt;</span><br><span class="line">      &lt;RowDefinition Height=&quot;*&quot; /&gt;</span><br><span class="line">    &lt;/Grid.RowDefinitions&gt;</span><br><span class="line">    &lt;!--顶部操作区--&gt;</span><br><span class="line">    &lt;DockPanel Grid.Row=&quot;0&quot;</span><br><span class="line">               LastChildFill=&quot;False&quot;</span><br><span class="line">               Margin=&quot;10&quot;&gt;</span><br><span class="line">      &lt;TextBlock Text=&quot;&#123;Binding AdvancedSettings.CurrentModuleType,StringFormat=当前机型：\&#123;0\&#125;&#125;&quot;</span><br><span class="line">                 VerticalAlignment=&quot;Bottom&quot;</span><br><span class="line">                 Style=&quot;&#123;StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader&#125;&quot; /&gt;</span><br><span class="line">      &lt;Button Command=&quot;&#123;Binding SaveAllAdvancedSettingsCommand&#125;&quot;</span><br><span class="line">              Content=&quot;保存&quot;</span><br><span class="line">              DockPanel.Dock=&quot;Right&quot; /&gt;</span><br><span class="line">    &lt;/DockPanel&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--分割线--&gt;</span><br><span class="line">    &lt;Border BorderThickness=&quot;0,0,0,0.3&quot;</span><br><span class="line">            BorderBrush=&quot;Gray&quot;</span><br><span class="line">            Margin=&quot;10 0&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--主体内容--&gt;</span><br><span class="line">    &lt;Grid Grid.Row=&quot;1&quot;&gt;</span><br><span class="line">      &lt;Grid.ColumnDefinitions&gt;</span><br><span class="line">        &lt;ColumnDefinition Width=&quot;220&quot; /&gt;</span><br><span class="line">        &lt;ColumnDefinition /&gt;</span><br><span class="line">      &lt;/Grid.ColumnDefinitions&gt;</span><br><span class="line">      &lt;ListBox x:Name=&quot;menuBar&quot;</span><br><span class="line">               ItemContainerStyle=&quot;&#123;StaticResource RangeListBoxItemStyle&#125;&quot;</span><br><span class="line">               ItemsSource=&quot;&#123;Binding AdvancedSettings.MenuBars&#125;&quot;</span><br><span class="line">               Margin=&quot;5,0&quot;&gt;</span><br><span class="line">        &lt;i:Interaction.Triggers&gt;</span><br><span class="line">          &lt;i:EventTrigger EventName=&quot;SelectionChanged&quot;&gt;</span><br><span class="line">            &lt;i:InvokeCommandAction Command=&quot;&#123;Binding ShowViewCommand&#125;&quot;</span><br><span class="line">                                   CommandParameter=&quot;&#123;Binding ElementName=menuBar, Path=SelectedItem&#125;&quot; /&gt;</span><br><span class="line">          &lt;/i:EventTrigger&gt;</span><br><span class="line">        &lt;/i:Interaction.Triggers&gt;</span><br><span class="line">        &lt;ListBox.ItemTemplate&gt;</span><br><span class="line">          &lt;DataTemplate&gt;</span><br><span class="line">            &lt;StackPanel Background=&quot;Transparent&quot;</span><br><span class="line">                        Orientation=&quot;Horizontal&quot;&gt;</span><br><span class="line">              &lt;materialDesign:PackIcon Margin=&quot;15,0&quot;</span><br><span class="line">                                       Kind=&quot;&#123;Binding Icon&#125;&quot; /&gt;</span><br><span class="line">              &lt;TextBlock Margin=&quot;10,0&quot;</span><br><span class="line">                         Text=&quot;&#123;Binding Title&#125;&quot; /&gt;</span><br><span class="line">            &lt;/StackPanel&gt;</span><br><span class="line">          &lt;/DataTemplate&gt;</span><br><span class="line">        &lt;/ListBox.ItemTemplate&gt;</span><br><span class="line">      &lt;/ListBox&gt;</span><br><span class="line"></span><br><span class="line">      &lt;ContentControl Grid.Column=&quot;1&quot;</span><br><span class="line">                      Margin=&quot;10,0&quot;</span><br><span class="line">                      Content=&quot;&#123;Binding AdvancedSettings.ContentObj&#125;&quot; /&gt;</span><br><span class="line">    &lt;/Grid&gt;</span><br><span class="line">  &lt;/Grid&gt;</span><br><span class="line">&lt;/UserControl&gt;</span><br></pre></td></tr></table></figure>
+
+<p>因为这个模块中并没有和界面相耦合的业务逻辑，所以对应文件的 code-Behind 代码如下：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Wpf.MvvmLight.SelfHost.View</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">  <span class="comment"><span class="doctag">///</span> AdvancedSettings.xaml 的交互逻辑</span></span><br><span class="line">  <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">AdvancedSettingsView</span> : <span class="title">UserControl</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AdvancedSettingsView</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">      InitializeComponent();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="界面效果"><a href="#界面效果" class="headerlink" title="界面效果"></a>界面效果</h3><p><img src="https://resource.irange.top/csharp/WMS%E4%B8%ADMVVMLight%E7%9A%84%E4%BD%BF%E7%94%A8%E2%80%94%E5%88%86%E5%B1%82%E7%AF%87/3.png"></p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>至此 WMS 中”高级设置”模块的 MVVM 分层结构就介绍完毕了，其他模块的结构也都大同小异，各位可以参考此篇文章自行进行查看，相信各位在看完之后，会对 WMS 的 MVVM 整体结构有个初步认识。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/12/WMS%E4%B8%ADMVVMLight%E7%9A%84%E4%BD%BF%E7%94%A8%E2%80%94%E5%BC%95%E5%85%A5%E7%AF%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Range">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ripples">
+      <meta itemprop="description" content="">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Ripples">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/11/12/WMS%E4%B8%ADMVVMLight%E7%9A%84%E4%BD%BF%E7%94%A8%E2%80%94%E5%BC%95%E5%85%A5%E7%AF%87/" class="post-title-link" itemprop="url">WMS中MVVMLight的使用—引入篇</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-11-12 10:47:47" itemprop="dateCreated datePublished" datetime="2022-11-12T10:47:47+08:00">2022-11-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-11-13 15:56:02" itemprop="dateModified" datetime="2022-11-13T15:56:02+08:00">2022-11-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Wpf-MvvmLight-SelfHost/" itemprop="url" rel="index"><span itemprop="name">Wpf.MvvmLight.SelfHost</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="MVVM-简介"><a href="#MVVM-简介" class="headerlink" title="MVVM 简介"></a>MVVM 简介</h2><p>MVVM 是 Model-View-ViewModel 的简写。它萌芽于 2005 年微软推出的基于 Windows 的⽤户界⾯框架 WPF ，而前端最早的 MVVM 框架 knockout 在 2010 年发布。可能大部分开发者是在接触前端时才开始了解 MVVM，比如目前流行的三大前端框架 Vue.js、React.js、Angular.js，它们无一不是用到了 MVVM 的设计思想，而 MVVM 也是因为它们被广大开发者所熟知。</p>
+<p>MVVM 类似于 MVC、MVP 等设计模式，它的主要目的是为了分离视图（View）和模型（Model）的耦合，它是一种优秀的设计模式，而并非框架级别的东西，由 MVP（Model-View-Presenter）模式与 WPF 结合的应用方式时发展演变过来的一种新型架构。</p>
+<p>MVVM 主要有如下几大优点：</p>
 <ol>
-<li><p>官网上下载MVVMLight Toolkit，安装之后，VS模板中会出现MvvmLight项目模板，你可以直接使用该项目模板来创建项目了。通过模板创建的项目中会包含默认的ViewModelLocator和MainViewModel，MainViewModel就是你Main视图的ViewModel了，而ViewModelLocator是一个全局的ViewModel加载注册器。</p>
+<li><strong>低耦合：</strong>视图（View）可以独立于 Model 变化和修改，一个 ViewModel 可以绑定到不同的 View 上，当 View 变化的时候 Model 可以不变，当 Model 变化的时候 View 也可以不变。</li>
+<li><strong>可重用性：</strong>可以把一些视图逻辑放在一个 ViewModel 里面，让很多 View 重用这段视图逻辑。</li>
+<li><strong>独立开发：</strong>开发人员可以专注于业务逻辑和数据的开发（ViewModel），设计人员可以专注于页面设计，使用 Expression Blend 可以很容易设计界面并生成 xml 代码。</li>
+<li><strong>可测试：</strong>界面素来是比较难于测试的，而现在测试可以针对 ViewModel 来写。</li>
+</ol>
+<p>随着现在各种前端框架对 MVVM 的应用，MVVM 相关的资料也是日益丰富，希望对其有更进一步了解的同学可以自行上网查询，关于 WPF 中 MVVM 的介绍，可以参考这篇<a target="_blank" rel="noopener" href="https://www.codeproject.com/kb/wpf/wpfmvvmquickstart.aspx">文章</a>，作者从 MVVM 的模式介绍到数据绑定、消息通知、命令等几个主要方面都有详细的说明。</p>
+<h2 id="MVVMLight-简介"><a href="#MVVMLight-简介" class="headerlink" title="MVVMLight 简介"></a>MVVMLight 简介</h2><p>MVVMLight 是个应用于 WPF 的轻量化的 MVVM 框架，它算是历史悠久了，作者也早早地停止了维护，是个较为小众的框架，但应用它的项目却不算少，有些甚至耳熟能详(比如虎牙客户端)。</p>
+<p>除了 MVVMLight，另外推荐 2 个值得大家去学习了解的 MVVM 框架：MVVM Toolkit 和 Prism。MVVM Toolkit 在一定程度上是对 MVVMLight 的优化、延申和扩展，而 Prism 则是一个重型的 MVVM 框架，提供的功能很强大。</p>
+<p>WMS 中主要用的是 MVVMLight，而它也是我们今天的主角。</p>
+<h2 id="MVVMLight-的使用"><a href="#MVVMLight-的使用" class="headerlink" title="MVVMLight 的使用"></a>MVVMLight 的使用</h2><p>要在项目中使用 MVVMLight，需要先将其引入到项目中，主要有两种方式：</p>
+<ol>
+<li><p>官网上下载 MVVMLight Toolkit，安装之后，VS 模板中会出现 MvvmLight 项目模板，你可以直接使用该项目模板来创建项目了。通过模板创建的项目中会包含默认的 ViewModelLocator 和 MainViewModel，MainViewModel 就是你 Main 视图的 ViewModel 了，而 ViewModelLocator 是一个全局的 ViewModel 加载注册器。</p>
 </li>
-<li><p>通过NuGet进行安装（推荐），方便快捷，下面主要介绍此方法。</p>
+<li><p>通过 NuGet 进行安装（推荐），方便快捷，下面主要介绍此方法。</p>
 </li>
 </ol>
-<p>在NuGet包管理工具中搜索”MVVMLight”可得到下面结果：</p>
+<p>在 NuGet 包管理工具中搜索”MVVMLight”可得到下面结果：</p>
 <p><img src="https://resource.irange.top/csharp/mvvmlight_nuget.jpg"></p>
 <p>这里主要关注上面前三个搜索结果，它们之间也是有一定的区别的。</p>
 <ul>
-<li><strong>MvvmLight:</strong> 包含MVVMLight核心库，并且在安装之后，除了在你的项目中添加MVVMLight库之外，还会自动生成开发脚手架，添加相关分层文件目录，提供一个简单的MVVMLight开发框架，方便开发者进行开发，项目结构如下所示。</li>
+<li><strong>MvvmLight:</strong> 包含 MVVMLight 核心库，并且在安装之后，除了在你的项目中添加 MVVMLight 库之外，还会自动生成开发脚手架，添加相关分层文件目录，提供一个简单的 MVVMLight 开发框架，方便开发者进行开发，项目结构如下所示。</li>
 </ul>
 <p><img src="https://resource.irange.top/csharp/mvvmlight_demo.png"></p>
-<p>如上图，它会帮你生成ViewModel文件夹，里面包含了MainViewModel和ViewModelLocator文件</p>
-<p><strong>ViewModelLocator：</strong>对应该类包含对应用程序中所有视图模型的静态引用，并为绑定提供入口点。简而言之，主要作用就是可在此类中，通过MVVMLight自带的Ioc容器对各个ViewModel进行注入操作，方便在View中进行使用。</p>
-<p><strong>MainViewModel：</strong>此类包含主视图可以数据绑定到的属性，是MVVMLight提供的一个ViewModel实例。</p>
+<p>如上图，它会帮你生成 ViewModel 文件夹，里面包含了 MainViewModel 和 ViewModelLocator 文件</p>
+<p><strong>ViewModelLocator：</strong>对应该类包含对应用程序中所有视图模型的静态引用，并为绑定提供入口点。简而言之，主要作用就是可在此类中，通过 MVVMLight 自带的 Ioc 容器对各个 ViewModel 进行注入操作，方便在 View 中进行使用。</p>
+<p><strong>MainViewModel：</strong>此类包含主视图可以数据绑定到的属性，是 MVVMLight 提供的一个 ViewModel 实例。</p>
 <ul>
-<li><strong>MvvmLightLibs：</strong>它只包含MVVMLight核心库，并且安装之后，不会自动生成开发脚手架，不会添加任何文件目录，算是个纯净版MVVMLight库，开发者安装之后可以自己手动进行项目文件目录分层等操作。</li>
-<li><strong>MvvmLightLibsStd10：</strong>它也是个纯净版的MVVMLight库，和上面有所区别的是，它是个.NET Standard类库，可以兼容其他的.NET框架，更通用。</li>
+<li><strong>MvvmLightLibs：</strong>它只包含 MVVMLight 核心库，并且安装之后，不会自动生成开发脚手架，不会添加任何文件目录，算是个纯净版 MVVMLight 库，开发者安装之后可以自己手动进行项目文件目录分层等操作。</li>
+<li><strong>MvvmLightLibsStd10：</strong>它也是个纯净版的 MVVMLight 库，和上面有所区别的是，它是个.NET Standard 类库，可以兼容其他的.NET 框架，更通用。</li>
 </ul>
-<h2 id="遇坑与填坑"><a href="#遇坑与填坑" class="headerlink" title="遇坑与填坑"></a>遇坑与填坑</h2><p><strong>1.ViewModelLocator文件报错</strong></p>
-<p>遇坑：安装MvvmLight后，其自动生成的ViewModelLocator文件出现报错问题。</p>
+<h2 id="遇坑与填坑"><a href="#遇坑与填坑" class="headerlink" title="遇坑与填坑"></a>遇坑与填坑</h2><p><strong>1.ViewModelLocator 文件报错</strong></p>
+<p>遇坑：安装 MvvmLight 后，其自动生成的 ViewModelLocator 文件出现报错问题。</p>
 <p><img src="https://resource.irange.top/csharp/mvvmlight_error1.png"></p>
 <p>原因：由于该库长时间未维护，脚手架自动生成的代码文件有误。</p>
 <p>填坑：更换对相关库的引用即可解决问题。</p>
 <p><img src="https://resource.irange.top/csharp/mvvmlight_resolve1.png"></p>
-<p><strong>2.App.xaml文件报错</strong></p>
-<p>遇坑：安装MvvmLight后，App.xaml文件出现报错问题。</p>
+<p><strong>2.App.xaml 文件报错</strong></p>
+<p>遇坑：安装 MvvmLight 后，App.xaml 文件出现报错问题。</p>
 <p><img src="https://resource.irange.top/csharp/mvvmlight_error2.png"></p>
 <p>原因：安装完库后，未重新生成项目。</p>
 <p>填坑：重新生成项目即可解决问题。</p>
-<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>其实MVVMLight这个库已经很古老了，很早就停止了维护，就连作者本人也是建议使用<a target="_blank" rel="noopener" href="https://docs.microsoft.com/windows/communitytoolkit/mvvm/introduction">Microsoft MVVM Toolkit</a>，尽管如此，仍然有很多的项目在使用着MVVMLight，可以看出它确实是个很优秀的MVVM库，不过我也会听从作者的建议，去拥抱新技术，希望各位有梦想的coder也不要停滞不前。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>其实 MVVMLight 这个库已经很古老了，很早就停止了维护，就连作者本人也是建议使用<a target="_blank" rel="noopener" href="https://docs.microsoft.com/windows/communitytoolkit/mvvm/introduction">Microsoft MVVM Toolkit</a>，尽管如此，仍然有很多的项目在使用着 MVVMLight，可以看出它确实是个很优秀的 MVVM 库，不过我也会听从作者的建议，去拥抱新技术，希望各位有梦想的 coder 也不要停滞不前。</p>
 
       
     </div>
