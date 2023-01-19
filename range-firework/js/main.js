@@ -67,8 +67,41 @@ javascript: !(function () {
     }
 
     if (text != "") {
-      var gap = 6;
+      alert(canvas.width);
+
+      if (canvas.width) var gap = 6;
       var fontSize = 120;
+
+      if (canvas.width >= 1200) {
+        // PC端
+        fontSize = 120;
+      } else if (canvas.width >= 960 && canvas.width <= 1199) {
+        // PC端
+        fontSize = 110;
+      } else if (canvas.width >= 768 && canvas.width <= 959) {
+        // PC端
+        fontSize = 100;
+      } else if (canvas.width >= 640 && canvas.width <= 767) {
+        // 平板端或者手机横屏
+        fontSize = 90;
+      } else if (canvas.width >= 480 && canvas.width <= 639) {
+        // 手机横屏
+        fontSize = 80;
+        gap = 5;
+      } else if (canvas.width >= 320 && canvas.width <= 479) {
+        // 手机竖屏
+        fontSize = 70;
+        gap = 5;
+        alert(6);
+      } else if (canvas.width >= 240 && canvas.width <= 319) {
+        // 手机竖屏
+        fontSize = 60;
+        gap = 4;
+      } else if (canvas.width <= 239) {
+        // 手机竖屏
+        fontSize = 50;
+        gap = 4;
+      }
 
       textctx.font = fontSize + "px _sans";
       textctx.fillStyle = "#ffffff";
@@ -178,11 +211,17 @@ javascript: !(function () {
       createFireworks(
         Math.random() * canvas.width,
         Math.random() * 0.5 * canvas.height,
-        ["❤呆呆❤", "新年快乐", "Daisy", "Happy Everyday", "代玉", "烦恼退散"][
-          textIndex
-        ]
+        [
+          "❤呆呆❤",
+          "新年快乐",
+          "Daisy",
+          "Happy",
+          "Everyday",
+          "代玉",
+          "烦恼退散",
+        ][textIndex]
       );
-      if (textIndex++ >= 5) {
+      if (textIndex++ >= 6) {
         textIndex = 0;
       }
     }
