@@ -205,16 +205,22 @@ javascript: !(function () {
   function tick(opt = 0) {
     if (opt - lastStamp > 3000) {
       lastStamp = opt;
-      var randomM = Math.random();
-      if (randomM < 0.2) {
-        randomM = 0.2;
-      } else if (randomM > 0.7) {
-        randomM = 0.7;
+      var randomM1 = Math.random();
+      if (randomM1 < 0.2) {
+        randomM1 = 0.2;
+      } else if (randomM1 > 0.8) {
+        randomM1 = 0.8;
+      }
+      var randomM2 = Math.random();
+      if (randomM2 < 0.2) {
+        randomM2 = 0.2;
+      } else if (randomM2 > 0.8) {
+        randomM2 = 0.8;
       }
       // console.log(randomM);
       createFireworks(
-        randomM * canvas.width,
-        randomM * 0.5 * canvas.height,
+        randomM1 * canvas.width,
+        randomM2 * 0.5 * canvas.height,
         [
           "❤呆呆❤",
           "新年快乐",
