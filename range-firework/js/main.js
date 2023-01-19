@@ -67,8 +67,6 @@ javascript: !(function () {
     }
 
     if (text != "") {
-      alert(canvas.width);
-
       if (canvas.width) var gap = 6;
       var fontSize = 120;
 
@@ -91,8 +89,7 @@ javascript: !(function () {
       } else if (canvas.width >= 320 && canvas.width <= 479) {
         // 手机竖屏
         fontSize = 70;
-        gap = 5;
-        alert(6);
+        gap = 4;
       } else if (canvas.width >= 240 && canvas.width <= 319) {
         // 手机竖屏
         fontSize = 60;
@@ -206,7 +203,7 @@ javascript: !(function () {
   var textIndex = 0;
   // 定时循环事件
   function tick(opt = 0) {
-    if (opt - lastStamp > 3500) {
+    if (opt - lastStamp > 3000) {
       lastStamp = opt;
       createFireworks(
         Math.random() * canvas.width,
