@@ -205,9 +205,16 @@ javascript: !(function () {
   function tick(opt = 0) {
     if (opt - lastStamp > 3000) {
       lastStamp = opt;
+      var randomM = Math.random();
+      if (randomM < 0.2) {
+        randomM = 0.2;
+      } else if (randomM > 0.7) {
+        randomM = 0.7;
+      }
+      // console.log(randomM);
       createFireworks(
-        Math.random() * canvas.width,
-        Math.random() * 0.5 * canvas.height,
+        randomM * canvas.width,
+        randomM * 0.5 * canvas.height,
         [
           "❤呆呆❤",
           "新年快乐",
