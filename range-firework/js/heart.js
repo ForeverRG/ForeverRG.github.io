@@ -285,4 +285,39 @@ function draw() {
   requestAnimationFrame(draw);
 }
 
-// draw();
+// 鼠标长按事件
+var pressTimer;
+var canvasesDiv = document.getElementById("canvases");
+// 鼠标按下事件
+canvasesDiv.onmousedown = function () {
+  // console.log("pc trigger mousedown", pressTimer);
+  // if (!pressTimer) {
+  pressTimer = setTimeout(() => {
+    // console.log("长按事件");
+    draw();
+  }, 5000);
+  // }
+};
+// 鼠标抬起事件
+canvasesDiv.onmouseup = function () {
+  // console.log("pc trigger mouseup");
+  // if (pressTimer) {
+  clearTimeout(pressTimer);
+  // }
+};
+// 移动端长按事件
+canvasesDiv.ontouchstart = function () {
+  // console.log("mobile trigger touchstart");
+  // if (!pressTimer) {
+  pressTimer = setTimeout(() => {
+    draw();
+  }, 1000);
+  // }
+};
+// 移动端抬起事件
+canvasesDiv.ontouchend = function () {
+  // console.log("mobile trigger touchend");
+  // if (pressTimer) {
+  clearTimeout(pressTimer);
+  // }
+};

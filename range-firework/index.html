@@ -71,15 +71,15 @@
     <!-- App -->
     <div class="container">
       <div class="loading-init">
-        <div class="loading-init__header">加载中</div>
-        <div class="loading-init__status">正在装配烟花</div>
+        <div class="loading-init__header">场地布置中</div>
+        <div class="loading-init__status">正在打上花火...</div>
       </div>
       <div class="stage-container remove">
         <div id="canvases" class="canvas-container">
           <canvas id="trails-canvas"> </canvas>
           <canvas id="main-canvas"> </canvas>
         </div>
-        <div class="controls">
+        <div class="controls" id="control-btn" style="display: none">
           <div class="btn pause-btn">
             <svg fill="white" width="24" height="24">
               <use href="#icon-pause" xlink:href="#icon-pause"></use>
@@ -104,7 +104,7 @@
               </svg>
             </div>
             <div class="menu__header">设置</div>
-            <div class="menu__subheader">若想了解更多信息 请点击任意标签</div>
+            <div class="menu__subheader">点击任意标签，获取更多信息</div>
             <form>
               <div class="form-option form-option--select">
                 <label class="shell-type-label"> 烟花类型 </label>
@@ -153,12 +153,6 @@
             </form>
             <div class="credits">
               <p class="copyright">
-                您的IP：
-                <script src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
-                <script type="text/javascript">
-                  document.write(returnCitySN["cip"]);
-                </script>
-                <br />
                 <script>
                   var mydate = new Date();
                   document.writeln(
@@ -170,13 +164,6 @@
                 <br />
                 最好的时间，最好的地点，最好的我遇到了最好的你......
                 <br />
-                <!-- <script type="text/javascript">
-                  document.write(
-                    unescape(
-                      "%3Cspan id='cnzz_stat_icon_1280819439'%3E%3C/span%3E%3Cscript src='https://s4.cnzz.com/z_stat.php%3Fid%3D1280819439' type='text/javascript'%3E%3C/script%3E"
-                    )
-                  );
-                </script> -->
               </p>
             </div>
           </div>
@@ -196,7 +183,7 @@
     <script src="./range-firework/js/Stage.js"></script>
     <script src="./range-firework/js/MyMath.js"></script>
     <script src="./range-firework/js/script.js"></script>
-    <script src="./range-firework/js/heart.js"></script>
     <script src="./range-firework/js/main.js"></script>
+    <script src="./range-firework/js/heart.js"></script>
   </body>
 </html>
