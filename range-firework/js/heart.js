@@ -311,7 +311,7 @@ canvasesDiv.ontouchstart = function () {
   // if (!pressTimer) {
   pressTimer = setTimeout(() => {
     draw();
-  }, 1000);
+  }, 5000);
   // }
 };
 // 移动端抬起事件
