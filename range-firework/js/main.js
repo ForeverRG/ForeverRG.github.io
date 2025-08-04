@@ -222,13 +222,9 @@ javascript: !(function () {
         randomM1 * canvas.width,
         randomM2 * 0.5 * canvas.height,
         [
-          "❤呆呆❤",
-          "新年快乐",
-          "Daisy",
-          "Happy",
-          "Everyday",
-          "代玉",
-          "烦恼退散",
+          "❤",
+          "Hello",
+          "World",
         ][textIndex]
       );
       if (textIndex++ >= 6) {
@@ -295,3 +291,4 @@ javascript: !(function () {
     }, waitTime + 10);
   };
 })();
+
